@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Using Prompts to Edit </title>
+    <style media="screen">
+      .day {
+        background-color:#A9E2F3;
+      }
+      .evening {
+        background-color: black;
+        color: white;
+      }
+    </style>
+  </head>
+  <body>
+    <p id="name"></p>
+    <p id="color"></p>
+    <p id="sport"></p>
+    <button type="button" name="button" onclick="backgroundChanger()" id="moodSetter">
+      Change mood of site
+    </button><br>
+    <h4 id="numberOfVisits"></h4>
+    <script>
+      var personName = localStorage.getItem('name')
+      var sport = localStorage.getItem('sport')
+      var color = localStorage.getItem('color')
+
+      function pageVisitCounter() {
+        if (localStorage.pagecount){
+          localStorage.pagecount = Number(localStorage.pagecount) +1
+        } else {
+          localStorage.pagecount = 1;
+        }
+        document.getElementById('numberOfVisits').innerHTML =
+        "Visits: " + localStorage.pagecount + " time(s)."
+      }
+      pageVisitCounter()
+
+      function pageRefresher(personName, sport, color){
+        if (personName !== null && sport !== null && color !== null) {
+          document.getElementById('name').innerHTML =
+          "Hey my name is " + personName + "." ;
+          document.getElementById('sport').innerHTML =
+         "I like playing/watching "+ sport + "." ;
+         document.getElementById('color').innerHTML =
+        "My favorite color is "+ color + "." ;
+        }
+      }
+      pageRefresher(personName, sport, color)
+
+    function updateMode(mode){
+      currentMode = mode
+      document.body.className = currentMode
+      localStorage.setItem('modeSetting', currentMode)
+      var mood = document.getElementById('moodSetter')
+      mood.textContent = currentMode + " mood"
+    }
+
+     pageRefresher(personName, sport, color)
+     if (localStorage.getItem('modeSetting') !== null){
+       updateMode(localStorage.getItem('modeSetting'))
+     }
+
+      if (personName === null){
+        var personName = prompt('What is thy name?');
+        localStorage.setItem('name', personName);
+        document.getElementById('name').innerHTML =
+        "Hey my name is " + personName + "." ;
+      }
+
+      if (sport === null){
+        var sport = prompt('So what is your favorite sport?');
+        localStorage.setItem('sport', sport);
+        document.getElementById('sport').innerHTML =
+       "I like playing/watching "+ sport + "." ;
+      }
+
+     if (color === null){
+       var color = prompt('Have a favorite color?');
+       localStorage.setItem('color', color);
+       document.getElementById('color').innerHTML =
+      "My favorite color is "+ color + "." ;
+      }
+
+      var currentMode = "day";
+      function backgroundChanger() {
+        if (currentMode === "day") {
+          updateMode("evening")
+        } else {
+          updateMode("day")
+        }
+      }
+    </script>
+  </body>
+</html>
